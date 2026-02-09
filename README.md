@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Collecte Journalière - Frontend Admin
 
-## Getting Started
+Application Next.js pour l'administration du système de collecte journalière.
 
-First, run the development server:
+## Fonctionnalités
 
+- 🔐 **Authentification** : Connexion sécurisée avec JWT
+- 👥 **Gestion des utilisateurs** : Création, modification et suppression d'utilisateurs
+- 🏢 **Gestion des agents** : Création et gestion des agents de terrain
+- 📊 **Tableau de bord** : Suivi des performances et statistiques des agents
+
+## Prérequis
+
+- Node.js 18+ et npm
+- Backend Spring Boot en cours d'exécution sur `http://localhost:8080`
+
+## Installation
+
+1. Installer les dépendances :
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Configurer l'URL de l'API :
+```bash
+cp .env.local.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Puis éditez `.env.local` et ajustez `NEXT_PUBLIC_API_URL` si nécessaire.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Démarrage
 
-## Learn More
+Lancer le serveur de développement :
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+L'application sera accessible sur [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure du projet
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+collecte-journaliere-frontend/
+├── app/                    # Pages Next.js (App Router)
+│   ├── dashboard/         # Tableau de bord
+│   ├── login/             # Page de connexion
+│   ├── utilisateurs/     # Gestion des utilisateurs
+│   └── agents/            # Gestion des agents
+├── components/            # Composants React réutilisables
+│   └── Navbar.tsx         # Barre de navigation
+├── lib/                    # Services et utilitaires
+│   ├── api.ts             # Configuration axios
+│   ├── auth.ts            # Service d'authentification
+│   └── services/          # Services API
+│       ├── agentService.ts
+│       ├── statistiqueService.ts
+│       └── utilisateurService.ts
+└── public/                # Fichiers statiques
+```
 
-## Deploy on Vercel
+## Utilisation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Connexion
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Accédez à `/login`
+2. Connectez-vous avec un compte Admin
+
+### Gestion des utilisateurs
+
+- Accédez à `/utilisateurs`
+- Cliquez sur "+ Nouvel utilisateur" pour créer un utilisateur
+- Les utilisateurs peuvent être des Admins ou des Agents
+
+### Gestion des agents
+
+- Accédez à `/agents`
+- Cliquez sur "+ Nouvel agent" pour créer un agent
+- Un agent doit être lié à un utilisateur de type "Agent"
+
+### Tableau de bord
+
+- Accédez à `/dashboard`
+- Visualisez les statistiques de tous les agents :
+  - Montant total collecté
+  - Montant collecté aujourd'hui
+  - Nombre de commerçants enregistrés
+  - Nombre de collectes
+  - Taux de réalisation de l'objectif mensuel
+
+## Technologies utilisées
+
+- **Next.js 16** : Framework React avec App Router
+- **TypeScript** : Typage statique
+- **Tailwind CSS** : Framework CSS utilitaire
+- **Axios** : Client HTTP pour les appels API
+
+## Notes
+
+- Le token JWT est stocké dans `localStorage`
+- Les requêtes API incluent automatiquement le token JWT dans les headers
+- En cas d'erreur 401 (non autorisé), l'utilisateur est redirigé vers la page de connexion
