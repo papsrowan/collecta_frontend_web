@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-function useIsVisible(ref: React.RefObject<Element>, once = true) {
+function useIsVisible(ref: React.RefObject<Element | null>, once = true) {
   const [isVisible, setIsVisible] = useState(false);
   const hasShown = useRef(false);
   useEffect(() => {

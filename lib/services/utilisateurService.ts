@@ -1,6 +1,8 @@
 import apiClient from '../api';
 import { User } from '../auth';
 
+export type { User };
+
 export interface CreateUtilisateurRequest {
   email: string;
   motDePasseHash: string;

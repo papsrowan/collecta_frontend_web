@@ -26,7 +26,6 @@ export default function AgentsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [formData, setFormData] = useState<CreateAgentRequest>({
     idUtilisateur: 0,
-    codeAgent: '',
     nomAgent: '',
     telephone: '',
     zoneAffectation: '',
@@ -53,7 +52,7 @@ export default function AgentsPage() {
         // Sinon, vérifier via l'API
         const currentUser = await authService.getCurrentUser();
         console.log('Current user from API:', currentUser);
-        const isAdminUser = currentUser.authorities?.some((auth: any) => {
+        const isAdminUser = currentUser?.authorities?.some((auth: any) => {
           const authority = auth?.authority || auth;
           return authority === 'ROLE_Admin' || authority === 'ROLE_Adjoint' || authority === 'ROLE_ADMIN' || authority === 'Admin' || authority === 'Adjoint';
         }) || false;
@@ -148,7 +147,6 @@ export default function AgentsPage() {
       setShowModal(false);
       setFormData({
         idUtilisateur: 0,
-        codeAgent: '',
         nomAgent: '',
         telephone: '',
         zoneAffectation: '',

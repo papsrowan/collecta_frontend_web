@@ -22,14 +22,15 @@ function AjouterCollecteAgentPageContent() {
   const [loadingData, setLoadingData] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [formData, setFormData] = useState<CreateCollecteRequest>({
+  // État formulaire : champs API + statut (affichage uniquement, non envoyé au backend)
+  const [formData, setFormData] = useState<CreateCollecteRequest & { statut?: string }>({
     compte: { numeroCompte: '' },
     agent: { idAgent: 0 },
     montant: 0,
-    dateCollecte: '', // Sera défini automatiquement à la validation
+    dateCollecte: '',
     modePaiement: 'Espèces',
-    statut: 'En_Attente',
     preuvePhoto: '',
+    statut: 'En_Attente',
   });
 
   useEffect(() => {
@@ -139,11 +140,11 @@ function AjouterCollecteAgentPageContent() {
 
     try {
       setLoading(true);
-      // Définir automatiquement la date et l'heure au moment de la validation
       const dateCollecte = new Date().toISOString();
+      const { statut: _statut, ...payload } = formData;
       await collecteService.create({
-        ...formData,
-        dateCollecte, // Date/heure actuelle automatique
+        ...payload,
+        dateCollecte,
         agent: { idAgent: agent.idAgent },
       });
       setSuccess(true);

@@ -222,6 +222,7 @@ export default function CaissierHistoriquePage() {
           'Client': collecte.compte.commerçant?.nomComplet || '-',
           'Montant (FCFA)': collecte.montant,
           'Mode de Paiement': collecte.modePaiement,
+          'Motif': '-',
         };
       } else {
         const retrait = activity.data as Retrait;
@@ -231,6 +232,7 @@ export default function CaissierHistoriquePage() {
           'Numéro Compte': retrait.compte.numeroCompte,
           'Client': retrait.compte.commerçant?.nomComplet || '-',
           'Montant (FCFA)': retrait.montant,
+          'Mode de Paiement': '-',
           'Motif': retrait.motif || '-',
         };
       }
@@ -247,6 +249,7 @@ export default function CaissierHistoriquePage() {
       'Client': '',
       'Montant (FCFA)': totalVersements,
       'Mode de Paiement': '',
+      'Motif': '',
     });
     
     excelData.push({
@@ -255,6 +258,7 @@ export default function CaissierHistoriquePage() {
       'Numéro Compte': '',
       'Client': '',
       'Montant (FCFA)': totalRetraits,
+      'Mode de Paiement': '',
       'Motif': '',
     });
     

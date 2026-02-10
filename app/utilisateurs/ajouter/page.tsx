@@ -136,7 +136,7 @@ export default function AjouterUtilisateurPage() {
                   required
                   className="w-full border-2 border-indigo-200 rounded-lg shadow-sm py-3 px-4 text-gray-900 font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Adjoint' | 'Agent' | 'Caisse' | 'Commercant' })}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Adjoint' | 'Agent' | 'Caisse' })}
                 >
                   <option value="Admin" className="text-gray-900">Admin</option>
                   <option value="Adjoint" className="text-gray-900">Adjoint</option>
