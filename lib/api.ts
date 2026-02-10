@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://collecta-backend.onrender.com';
+// Base URL du backend (sans /api) ; on ajoute /api pour matcher les controllers Spring Boot
+const BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://collecta-backend.onrender.com').replace(/\/$/, '');
+const API_BASE_URL = `${BASE}/api`;
 
 // Configuration de l'instance axios
 const apiClient = axios.create({
