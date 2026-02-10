@@ -112,8 +112,8 @@ export default function Home() {
           <div className="flex-1 mt-12 lg:mt-0 flex justify-center">
             <div className="landing-float w-full max-w-md aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-[#e2e8f0] bg-[#e2e8f0]">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80"
-                alt="Collectrice avec téléphone en main dans un marché - Collecta"
+                src="/images/collecta-mobile-1.png"
+                alt="Collectrice Collecta avec téléphone en main dans un marché"
                 className="w-full h-full object-cover"
                 width={800}
                 height={600}
@@ -275,8 +275,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Application mobile Collecta */}
-      <section className="landing-section py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* Application mobile Collecta - pas de classe landing-section pour rester visible */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#f8fafc]">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[#0f172a] mb-4">
