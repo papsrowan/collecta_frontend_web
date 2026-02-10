@@ -97,6 +97,16 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Link>
+              <a
+                href="/apk/collecta-mobile.apk"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-[#3EB881] text-[#3EB881] bg-white font-semibold text-base shadow-sm hover:bg-[#ecfdf3] hover:border-[#2d9d6b] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+                download
+              >
+                Télécharger l&apos;app mobile (APK)
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </a>
             </div>
           </div>
           <div className="flex-1 mt-12 lg:mt-0 flex justify-center">
@@ -260,6 +270,55 @@ export default function Home() {
                   Suivi détaillé des actions de chaque agent : identité de l&apos;agent (nom, code, zone), filtres par période (date début / date fin) et par type d&apos;activité (tous, versements, clients, KYC). Chaque événement (ex. commerçant ajouté) est affiché avec les détails (nom, téléphone, zone, boutique) et l&apos;horodatage. Export possible en PDF ou Excel pour reporting et audits.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Application mobile Collecta */}
+      <section className="landing-section py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0f172a] mb-4">
+              L&apos;app mobile pour vos collectrices sur le terrain
+            </h2>
+            <p className="text-[#64748b] text-lg mb-6">
+              Les agents Collecta saisissent les versements directement sur leur smartphone, au marché, chez le client ou en tournée.
+              Les données sont synchronisées en temps réel avec la plateforme web pour un suivi instantané.
+            </p>
+            <p className="text-[#64748b] text-sm mb-6">
+              Installez l&apos;application Android sur les téléphones de vos agents pour qu&apos;ils puissent encaisser, générer des reçus et
+              consulter l&apos;historique de leurs collectes même en mobilité.
+            </p>
+            <a
+              href="/apk/collecta-mobile.apk"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#111827] text-white font-semibold text-base shadow-lg hover:bg-black hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+              download
+            >
+              Télécharger l&apos;APK Android
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#e2e8f0] bg-[#e2e8f0]">
+              <img
+                src="/images/collecta-mobile-1.png"
+                alt="Collectrice Collecta encaisse un versement avec son smartphone"
+                className="w-full h-full object-cover"
+                width={800}
+                height={1024}
+              />
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#e2e8f0] bg-[#e2e8f0] sm:mt-8">
+              <img
+                src="/images/collecta-mobile-2.png"
+                alt="Collectrice Collecta consulte les reçus et les montants collectés"
+                className="w-full h-full object-cover"
+                width={800}
+                height={1024}
+              />
             </div>
           </div>
         </div>
