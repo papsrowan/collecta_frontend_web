@@ -356,7 +356,7 @@ export default function Home() {
           <p className="text-[#64748b] text-sm font-medium mb-2">Pour obtenir un accès à la plateforme</p>
           <p className="text-[#1e293b] font-semibold mb-1">Contactez le directeur commercial</p>
           <p className="text-[#3EB881] font-medium">
-            <a href="tel:+237658841880" className="hover:underline">658 84 18 80</a>
+            <a href="tel:+237657841880" className="hover:underline">657 84 18 80</a>
             <span className="text-[#94a3b8] mx-2">/</span>
             <a href="tel:+237678942011" className="hover:underline">678 94 20 11</a>
           </p>
