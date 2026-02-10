@@ -9,11 +9,13 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    // Sur desktop (lg), ouvrir la sidebar par défaut
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) setIsOpen(true);
     // Récupérer le rôle depuis le token
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (token) {

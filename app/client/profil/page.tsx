@@ -100,7 +100,7 @@ export default function ClientProfilPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex">
         <ClientSidebar />
-        <div className="flex-1 lg:ml-64 flex items-center justify-center">
+        <div className="page-with-sidebar flex items-center justify-center">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
             <p className="mt-4 text-gray-600">Chargement...</p>
@@ -113,7 +113,7 @@ export default function ClientProfilPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <ClientSidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <h1 className="text-3xl font-bold text-gray-900 mb-6">Mon Profil</h1>

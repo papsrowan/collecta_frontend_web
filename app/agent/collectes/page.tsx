@@ -246,7 +246,7 @@ export default function AgentCollectesPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <AgentSidebar />
-      <div className="flex-1 ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8 flex justify-between items-center">
             <div>
@@ -351,7 +351,7 @@ export default function AgentCollectesPage() {
                 Aucun versement trouvé
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="table-responsive overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>

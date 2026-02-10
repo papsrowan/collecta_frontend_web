@@ -22,7 +22,7 @@ export interface LoginResponse {
 export interface User {
   idUtilisateur: number;
   email: string;
-  role: 'Admin' | 'Agent' | 'Caisse' | 'Commercant';
+  role: 'SuperAdmin' | 'Admin' | 'Adjoint' | 'Agent' | 'Caisse' | 'Commercant';
   statutUtilisateur: 'Actif' | 'Bloqué';
   dateCreation: string;
   createdBy?: {
@@ -93,14 +93,24 @@ export const authService = {
     return response.data;
   },
 
-  getCurrentUser: async (): Promise<{ email: string; authorities: any[] }> => {
-    const response = await apiClient.get<{ email: string; authorities: any[] }>('/auth/me');
-    return response.data;
+  getCurrentUser: async (): Promise<{ email: string; authorities: any[] } | null> => {
+    try {
+      const response = await apiClient.get<{ email: string; authorities: any[] }>('/auth/me');
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        return null;
+      }
+      throw error;
+    }
   },
 
   logout: () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('commercantId');
       window.location.href = '/login';
     }
   },

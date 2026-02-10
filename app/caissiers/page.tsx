@@ -36,33 +36,29 @@ export default function CaissiersPage() {
     const checkAdminAndLoadData = async () => {
       let adminStatus = false;
       try {
-        // D'abord vérifier localStorage (plus rapide)
         const userRole = typeof window !== 'undefined' ? localStorage.getItem('userRole') : null;
-        if (userRole === 'Admin') {
+        const roleUpper = userRole?.toUpperCase();
+        if (roleUpper === 'ADMIN' || roleUpper === 'ADJOINT') {
           adminStatus = true;
           setIsAdmin(true);
         } else {
-          // Sinon, vérifier via l'API
           try {
             const currentUser = await authService.getCurrentUser();
-            console.log('Current user from API:', currentUser);
-            adminStatus = currentUser.authorities?.some((auth: any) => {
-              const authority = auth?.authority || auth;
-              return authority === 'ROLE_Admin' || authority === 'ROLE_ADMIN' || authority === 'Admin';
-            }) || false;
-            console.log('Is admin user:', adminStatus);
+            if (currentUser?.authorities) {
+              adminStatus = currentUser.authorities.some((auth: any) => {
+                const authority = (auth?.authority ?? auth)?.toString() ?? '';
+                return /ROLE_ADMIN|ROLE_Adjoint|Admin|Adjoint/i.test(authority);
+              });
+            }
             setIsAdmin(adminStatus);
           } catch (apiErr) {
-            console.error('Error checking admin via API:', apiErr);
-            adminStatus = false;
-            setIsAdmin(false);
+            adminStatus = roleUpper === 'ADMIN' || roleUpper === 'ADJOINT';
+            setIsAdmin(adminStatus);
           }
         }
       } catch (err) {
-        console.error('Error checking admin:', err);
-        // Fallback vers localStorage
         const userRole = typeof window !== 'undefined' ? localStorage.getItem('userRole') : null;
-        adminStatus = userRole === 'Admin';
+        adminStatus = userRole?.toUpperCase() === 'ADMIN' || userRole?.toUpperCase() === 'ADJOINT';
         setIsAdmin(adminStatus);
       }
       
@@ -196,7 +192,7 @@ export default function CaissiersPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex">
         <Sidebar />
-        <div className="flex-1 lg:ml-64">
+        <div className="page-with-sidebar">
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -211,7 +207,7 @@ export default function CaissiersPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">

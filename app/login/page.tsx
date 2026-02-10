@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService, LoginRequest } from '@/lib/auth';
 import { generateBicecReceiptPDF } from '@/lib/utils/pdfGenerator';
+
+const STORAGE_KEY_BLOCKED_MESSAGE = 'loginBlockedMessage';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,6 +13,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Afficher le message "microfinance désactivée" après redirection par l'intercepteur API
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const blockedMessage = sessionStorage.getItem(STORAGE_KEY_BLOCKED_MESSAGE);
+    if (blockedMessage) {
+      sessionStorage.removeItem(STORAGE_KEY_BLOCKED_MESSAGE);
+      setError(blockedMessage);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,13 +82,15 @@ export default function LoginPage() {
       // Rediriger selon le rôle (tolérant aux variations de casse)
       const role = response.role?.toUpperCase();
       console.log('DEBUG Login: Redirection vers le dashboard pour le rôle:', role);
-      if (role === 'AGENT') {
+      if (role === 'SUPERADMIN') {
+        router.replace('/super-admin/dashboard');
+      } else if (role === 'AGENT') {
         router.replace('/agent/dashboard');
       } else if (role === 'COMMERCANT') {
         // Rediriger vers l'interface web pour les clients
         console.log('DEBUG Login: Redirection vers /client/dashboard');
         router.replace('/client/dashboard');
-      } else if (role === 'ADMIN') {
+      } else if (role === 'ADMIN' || role === 'ADJOINT') {
         router.replace('/dashboard');
       } else if (role === 'CAISSE') {
         router.replace('/retraits');
@@ -94,7 +108,11 @@ export default function LoginPage() {
       
       if (err.response?.data) {
         const data = err.response.data;
-        
+        if (err.response?.status === 403 && data.error === 'MICROFINANCE_DESACTIVEE') {
+          errorMessage = data.message || 'L\'accès au système est suspendu pour votre microfinance. Merci de régulariser votre situation.';
+          setError(errorMessage);
+          return;
+        }
         // Gérer les erreurs de validation
         if (data.errors && typeof data.errors === 'object') {
           const validationErrors = Object.entries(data.errors)
@@ -123,24 +141,24 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen min-h-[100dvh] flex items-center justify-center bg-gray-50 py-8 px-4 sm:px-6 sm:py-12 lg:px-8">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8">
         <div className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center">
               <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-800">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
             Connexion
           </h2>
           <p className="mt-2 text-sm text-gray-500">
             Collecte Journalière - Administration
           </p>
         </div>
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="bg-white rounded-2xl shadow-lg p-5 sm:p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-orange-50 border border-orange-200 rounded-lg px-4 py-3 flex items-start">
@@ -218,16 +236,17 @@ export default function LoginPage() {
                 )}
               </button>
               
-              <button
-                type="button"
-                onClick={() => generateBicecReceiptPDF()}
-                className="w-full flex justify-center items-center py-3 px-4 border border-red-600 text-base font-semibold rounded-xl text-red-600 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md hover:shadow-lg transition-all duration-200"
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Télécharger Reçu PDF
-              </button>
+              {// <button
+                //type="button"
+                //onClick={() => generateBicecReceiptPDF()}
+                //className="w-full flex justify-center items-center py-3 px-4 border border-red-600 text-base font-semibold rounded-xl text-red-600 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md hover:shadow-lg transition-all duration-200"
+              //>
+                //</div><svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                //  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                //</svg>
+                //Télécharger Reçu PDF
+              //</button>
+              }
             </div>
           </form>
         </div>

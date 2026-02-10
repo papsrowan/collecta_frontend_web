@@ -131,7 +131,7 @@ export default function ClientSignalementPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <ClientSidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-3xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <h1 className="text-3xl font-bold text-gray-900 mb-6">Signaler une Collecte</h1>

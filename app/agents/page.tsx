@@ -45,7 +45,7 @@ export default function AgentsPage() {
       try {
         // D'abord vérifier localStorage (plus rapide)
         const userRole = typeof window !== 'undefined' ? localStorage.getItem('userRole') : null;
-        if (userRole === 'Admin') {
+        if (userRole?.toUpperCase() === 'ADMIN' || userRole?.toUpperCase() === 'ADJOINT') {
           setIsAdmin(true);
           return;
         }
@@ -55,7 +55,7 @@ export default function AgentsPage() {
         console.log('Current user from API:', currentUser);
         const isAdminUser = currentUser.authorities?.some((auth: any) => {
           const authority = auth?.authority || auth;
-          return authority === 'ROLE_Admin' || authority === 'ROLE_ADMIN' || authority === 'Admin';
+          return authority === 'ROLE_Admin' || authority === 'ROLE_Adjoint' || authority === 'ROLE_ADMIN' || authority === 'Admin' || authority === 'Adjoint';
         }) || false;
         console.log('Is admin user:', isAdminUser);
         setIsAdmin(isAdminUser);
@@ -63,7 +63,7 @@ export default function AgentsPage() {
         console.error('Error checking admin:', err);
         // Fallback vers localStorage
         const userRole = typeof window !== 'undefined' ? localStorage.getItem('userRole') : null;
-        setIsAdmin(userRole === 'Admin');
+        setIsAdmin(userRole?.toUpperCase() === 'ADMIN' || userRole?.toUpperCase() === 'ADJOINT');
       }
     };
     checkAdmin();
@@ -197,7 +197,7 @@ export default function AgentsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex">
         <Sidebar />
-        <div className="flex-1 lg:ml-64">
+        <div className="page-with-sidebar">
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -212,7 +212,7 @@ export default function AgentsPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <div className="flex justify-between items-center mb-6">

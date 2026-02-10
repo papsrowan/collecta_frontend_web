@@ -16,7 +16,7 @@ apiClient.interceptors.request.use(
     // Toujours essayer d'ajouter le token, même en SSR (pour les requêtes côté client)
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')?.trim();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
           console.log('DEBUG API: Token ajouté à la requête', config.url, 'Token:', token.substring(0, 20) + '...');
@@ -75,9 +75,23 @@ apiClient.interceptors.response.use(
       // Ne pas nettoyer le localStorage ici - laisser les composants le faire
       // pour éviter de perdre le token si c'est juste une requête qui échoue temporairement
     } else if (error.response?.status === 403) {
-      // Accès refusé - l'utilisateur n'a pas les droits nécessaires
+      const data = error.response?.data;
+      if (data?.error === 'MICROFINANCE_DESACTIVEE') {
+        // Microfinance désactivée ou non à jour : déconnexion et redirection vers login avec message
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userRole');
+          localStorage.removeItem('userInfo');
+          localStorage.removeItem('commercantId');
+          sessionStorage.setItem(
+            'loginBlockedMessage',
+            typeof data.message === 'string' ? data.message : 'L\'accès au système est suspendu pour votre microfinance. Merci de régulariser votre situation.'
+          );
+          window.location.href = '/login';
+        }
+        return Promise.reject(error);
+      }
       console.error('Accès refusé: Vous n\'avez pas les permissions nécessaires pour cette action');
-      // Ne pas rediriger automatiquement - laisser les composants gérer
     }
     return Promise.reject(error);
   }

@@ -28,12 +28,12 @@ export default function UtilisateursPage() {
   });
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (typeof window === 'undefined') return;
+    const token = localStorage.getItem('token')?.trim();
     if (!token) {
       router.push('/login');
       return;
     }
-
     loadUtilisateurs();
   }, [router]);
 
@@ -54,11 +54,17 @@ export default function UtilisateursPage() {
       // Charger les credentials pour chaque utilisateur
       loadCredentials(utilisateursArray);
     } catch (err: any) {
-      console.error('Erreur lors du chargement des utilisateurs:', err);
-      console.error('Status:', err.response?.status);
-      console.error('Data:', err.response?.data);
+      if (err.response?.status === 401) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userRole');
+          localStorage.removeItem('userInfo');
+          router.push('/login');
+        }
+        return;
+      }
       setError(err.response?.data?.message || err.message || 'Erreur lors du chargement des utilisateurs');
-      setUtilisateurs([]); // Réinitialiser à un tableau vide en cas d'erreur
+      setUtilisateurs([]);
     } finally {
       setLoading(false);
     }
@@ -254,7 +260,7 @@ export default function UtilisateursPage() {
     return (
       <div>
         <Sidebar />
-        <div className="flex-1 lg:ml-64">
+        <div className="page-with-sidebar">
           <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -270,7 +276,7 @@ export default function UtilisateursPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">
@@ -290,7 +296,7 @@ export default function UtilisateursPage() {
           )}
 
           {/* Afficher les utilisateurs séparés par rôle */}
-          {['Admin', 'Agent', 'Caisse', 'Commercant'].map((role) => {
+          {['Admin', 'Adjoint', 'Agent', 'Caisse', 'Commercant'].map((role) => {
             const usersByRole = Array.isArray(utilisateurs) 
               ? utilisateurs.filter(u => u.role === role)
               : [];
@@ -704,9 +710,10 @@ export default function UtilisateursPage() {
                       <select
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         value={formData.role}
-                        onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Agent' | 'Caisse' })}
+                        onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Adjoint' | 'Agent' | 'Caisse' })}
                       >
                         <option value="Admin">Admin</option>
+                        <option value="Adjoint">Adjoint</option>
                         <option value="Agent">Agent</option>
                         <option value="Caisse">Caissier</option>
                       </select>

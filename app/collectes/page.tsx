@@ -224,7 +224,7 @@ export default function CollectesPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex">
         <Sidebar />
-        <div className="flex-1 lg:ml-64">
+        <div className="page-with-sidebar">
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
@@ -239,7 +239,7 @@ export default function CollectesPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <div className="flex justify-between items-center mb-6">
@@ -340,7 +340,7 @@ export default function CollectesPage() {
                   Aucun versement trouvé
                 </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="table-responsive overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>

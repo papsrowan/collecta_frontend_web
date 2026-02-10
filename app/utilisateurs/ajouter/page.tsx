@@ -63,7 +63,7 @@ export default function AjouterUtilisateurPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 lg:ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-3xl mx-auto py-8 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
@@ -73,7 +73,7 @@ export default function AjouterUtilisateurPage() {
             >
               ← Retour à la liste des utilisateurs
             </Link>
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">Ajouter un nouvel utilisateur</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">Ajouter un nouvel utilisateur</h1>
             <p className="text-sm text-gray-600">
               Remplissez le formulaire ci-dessous pour créer un nouveau compte utilisateur.
             </p>
@@ -95,7 +95,7 @@ export default function AjouterUtilisateurPage() {
             <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 px-6 py-4">
               <h2 className="text-xl font-semibold text-white">Informations de l'utilisateur</h2>
             </div>
-            <form onSubmit={handleSubmit} className="p-8 space-y-6">
+            <form onSubmit={handleSubmit} className="p-5 sm:p-8 space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Email <span className="text-red-500">*</span>
@@ -136,14 +136,15 @@ export default function AjouterUtilisateurPage() {
                   required
                   className="w-full border-2 border-indigo-200 rounded-lg shadow-sm py-3 px-4 text-gray-900 font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Agent' | 'Caisse' | 'Commercant' })}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'Admin' | 'Adjoint' | 'Agent' | 'Caisse' | 'Commercant' })}
                 >
                   <option value="Admin" className="text-gray-900">Admin</option>
+                  <option value="Adjoint" className="text-gray-900">Adjoint</option>
                   <option value="Agent" className="text-gray-900">Agent</option>
                   <option value="Caisse" className="text-gray-900">Caissier</option>
                 </select>
                 <p className="mt-2 text-xs text-gray-500">
-                  Les administrateurs ont accès à toutes les fonctionnalités. Les agents peuvent créer des clients et faire des collectes. Les caissiers peuvent effectuer des versements et des retraits.
+                  Admin : responsable de la microfinance. Adjoint : mêmes droits que l&apos;admin (créé par un Admin). Les agents peuvent créer des clients et faire des collectes. Les caissiers peuvent effectuer des versements et des retraits.
                 </p>
               </div>
 
@@ -165,7 +166,7 @@ export default function AjouterUtilisateurPage() {
                 </p>
               </div>
 
-              <div className="flex justify-end space-x-4 pt-6 border-t border-indigo-200">
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:space-x-4 sm:space-y-0 pt-6 border-t border-indigo-200">
                 <Link
                   href="/utilisateurs"
                   className="px-6 py-3 border-2 border-indigo-300 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"

@@ -4,7 +4,7 @@ import { User } from '../auth';
 export interface CreateUtilisateurRequest {
   email: string;
   motDePasseHash: string;
-  role: 'Admin' | 'Agent' | 'Caisse';
+  role: 'Admin' | 'Adjoint' | 'Agent' | 'Caisse';
   statutUtilisateur?: 'Actif' | 'Bloqué';
 }
 

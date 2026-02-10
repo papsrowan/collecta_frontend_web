@@ -118,7 +118,7 @@ export default function SignalementsPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
-      <div className="flex-1 ml-64">
+      <div className="page-with-sidebar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Signalements de Collectes</h1>
@@ -173,7 +173,7 @@ export default function SignalementsPage() {
                 Aucun signalement trouvé
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="table-responsive overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
