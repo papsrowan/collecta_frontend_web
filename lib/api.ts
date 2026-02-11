@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL du backend (sans /api) ; on ajoute /api pour matcher les controllers Spring Boot
-const BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://187.77.97.150:8080').replace(/\/$/, '');
+const BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://api.collecta.finance').replace(/\/$/, '');
 const API_BASE_URL = `${BASE}/api`;
 
 // Configuration de l'instance axios
