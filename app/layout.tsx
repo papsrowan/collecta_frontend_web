@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Collecte Journalière - Administration",
   description: "Application de gestion de collectes journalières",
+    icons: {
+    icon: "/favicon.ico", // ou "/favicon.png"
+  },
 };
 
 export const viewport = {
